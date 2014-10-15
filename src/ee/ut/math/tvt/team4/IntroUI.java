@@ -1,11 +1,19 @@
 package ee.ut.math.tvt.team4;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -66,7 +74,18 @@ public class IntroUI extends Application {
 		Text version = new Text(info.getVersion());
 		gp.add(version, 2, 7);
 		
-		
+		try {
+			Image logo = getLogo(info.getLogoPath());
+			ImageView iv = new ImageView(logo);
+			iv.setFitWidth(200);
+	        iv.setPreserveRatio(true);
+	        iv.setSmooth(true);
+	        iv.setCache(true);
+			
+			gp.add(iv, 1, 8);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 		
 		
 		Scene scene = new Scene(root,400,400);
@@ -74,6 +93,14 @@ public class IntroUI extends Application {
 		stage.setTitle("Team4");
 		stage.centerOnScreen();
 		stage.show();
+	}
+	
+	private Image getLogo(String logoPath) throws IOException{
+		
+		FileInputStream in = new FileInputStream(new File(logoPath));
+		Image logo = new Image(in);
+		in.close();
+		return logo;
 	}
 	
 }
