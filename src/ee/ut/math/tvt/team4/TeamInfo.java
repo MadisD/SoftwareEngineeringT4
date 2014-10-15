@@ -22,9 +22,14 @@ private void readVersion(String filePath){
 	try 
 	(BufferedReader info = new BufferedReader(new FileReader(filePath));)
 	{
-		String majorNr = info.readLine();
-		String minorNr = info.readLine();
-		String revNr = info.readLine();
+		info.readLine();
+		String[] revPieces = info.readLine().split("=");
+		String[] minorPieces = info.readLine().split("=");
+		String[] majorPieces = info.readLine().split("=");
+		
+		String majorNr = majorPieces[1];
+		String minorNr = minorPieces[1];
+		String revNr = revPieces[1];
 		this.version = majorNr+"."+minorNr+"."+revNr;
 		
 		
