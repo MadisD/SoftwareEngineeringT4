@@ -46,8 +46,7 @@ private void readInfo(String filePath){
 	{
 		String line;
 	      while ((line = info.readLine()) != null){
-	       // System.out.println(line);
-	        String[] pieces = line.split(":");
+	        String[] pieces = line.split("=");
 	        String spec = pieces[0].trim();
 	        String data = pieces[1].trim();
 	        
