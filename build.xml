@@ -14,6 +14,8 @@
 	<property name="resources.dir" value="${basedir}/resources"/>
 	<property name="Main-Class" value="ee.ut.math.tvt.team4.Intro"/>
 	<property name="conf.dir" value="${basedir}/etc"/>
+	<property name="build.lib.dir" value="${build.dir}/lib"/>
+
 	
 	
 
@@ -84,7 +86,14 @@
 					</fileset>
 				</copy>
 		
-		<jar jarfile="${build.dir}/jar/Team4.jar"  basedir="${build.dir}">
+		<jar jarfile="${build.dir}/jar/Team4.jar"  basedir="${build.classes.dir}">
+			
+			<fileset dir="${build.dir}">
+				<exclude name="**/jar/**"/>
+				<exclude name="**/classes/**"/>
+			</fileset>
+			<zipgroupfileset dir="${build.lib.dir}" includes="**/*.jar" />
+			
 			<manifest>
 				<attribute name="Main-Class" value="${Main-Class}" />
 			</manifest>
@@ -92,23 +101,24 @@
 			
 	</target>
 	
-	<!-- Run taret  -->
+	<!-- Run target  -->
 	<target name="run" depends="build" description="Runs the new build project">
 			<java classname="ee.ut.math.tvt.team4.Intro" classpathref="classpath" fork="yes"/> 
 	</target>
 	
-	<!-- Jar run doesnt work
 	
-	<target name="jrun"  description="Runs created jar file ">
-		<java classname="${Main-Class}" fork="yes" failonerror="yes" >
-			<classpath>
-				<path location="${build.dir}/jar/Team4.jar"/>
-			</classpath>
-			
-		</java>		
+	<!-- Run Jar File -->
+	<target name="jrun" depends="build"
+	description="opens your intro window using the JAR file created by your dist ANT target">
+	<java fork="true" classname="ee.ut.math.tvt.team4.Intro"
+	failonerror="false">
+	<classpath>
+	<pathelement path="${build.dir}/jar/Team4.jar" />
+	</classpath>
+	</java>
 	</target>
 	
-	-->
+	
 </project>
 
 	
