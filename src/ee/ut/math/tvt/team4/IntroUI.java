@@ -87,6 +87,7 @@ public class IntroUI extends Application {
 		stage.setTitle("Team4");
 		stage.centerOnScreen();
 		stage.show();
+		
 	}
 	
 	private Image getLogo(String logoPath) throws IOException{
@@ -94,6 +95,20 @@ public class IntroUI extends Application {
 		Image logo = new Image(in);
 		in.close();
 		return logo;
+	}
+
+	public void setAlwaysOnTop(boolean b) {
+		
+		
+	}
+	
+	private void onTop(Stage stage, boolean value){
+		stage.setAlwaysOnTop(value);
+	}
+
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -88,7 +88,15 @@
 		</jar>
 
 	</target>
+	
+	
+	<target name="runc" depends="build" description="Run the application (console)">
+		<java classname="ee.ut.math.tvt.team4.Intro" classpathref="classpath" fork="yes">
+			<arg value="console" />
+		</java>
+	</target>
 
+	
 	<!-- Run target  -->
 	<target name="run" depends="build" description="Runs the new build project">
 		<java classname="ee.ut.math.tvt.team4.Intro" classpathref="classpath" fork="yes" />
