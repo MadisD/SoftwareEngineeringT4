@@ -8,7 +8,7 @@ public class Intro {
 	public static void main(String[] args) {
 
 		IntroUI intro = new IntroUI();
-		log.info("New window has been opened, Should SHOW event time and name of the component (invocated class name) ");
+		log.info("New window has been opened");
 		intro.showInfo();
 		
 		

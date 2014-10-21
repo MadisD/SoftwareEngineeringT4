@@ -88,6 +88,9 @@
 		
 		<jar jarfile="${build.dir}/jar/Team4.jar"  basedir="${build.classes.dir}">
 			
+			<fileset dir="${basedir}/etc">
+				<include name="log4j.xml"/>
+			</fileset>
 			<fileset dir="${build.dir}">
 				<exclude name="**/jar/**"/>
 				<exclude name="**/classes/**"/>
@@ -109,7 +112,7 @@
 	
 	<!-- Run Jar File -->
 	<target name="jrun" depends="build"
-	description="opens your intro window using the JAR file created by your dist ANT target">
+	description="Runs main class from jar file">
 	<java fork="true" classname="ee.ut.math.tvt.team4.Intro"
 	failonerror="false">
 	<classpath>
