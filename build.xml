@@ -60,7 +60,7 @@
 
 	<!-- Making jar file target  -->
 	<target name="dist" depends="build" description="Creates distribution file">
-		
+
 		<!-- Updates version number -->
 		<propertyfile file="version.properties">
 			<entry key="revision" type="int" default="0" operation="+" />
@@ -82,23 +82,23 @@
 				<exclude name="**/jar/**" />
 				<exclude name="**/classes/**" />
 			</fileset>
-			
+
 			<zipgroupfileset dir="${build.lib.dir}" includes="**/*.jar" />
 			<manifest>
-			 <attribute name="Main-Class" value="${Main-Class}" />
+				<attribute name="Main-Class" value="${Main-Class}" />
 			</manifest>
 		</jar>
 
 	</target>
-	
-	
+
+
 	<target name="runc" depends="build" description="Run the application (console)">
 		<java classname="ee.ut.math.tvt.team4.Intro" classpathref="classpath" fork="yes">
 			<arg value="console" />
 		</java>
 	</target>
 
-	
+
 	<!-- Run target  -->
 	<target name="run" depends="build" description="Runs the new build project">
 		<java classname="ee.ut.math.tvt.team4.Intro" classpathref="classpath" fork="yes" />
@@ -107,13 +107,9 @@
 
 	<!-- Run Jar File -->
 	<target name="jrun" depends="dist" description="Runs main class from jar file">
-		<java fork="true" classname="ee.ut.math.tvt.team4.Intro" failonerror="false">
-			<classpath>
-				<pathelement path="${build.dir}/jar/Team4.jar" />
-			</classpath>
+		<java jar="${build.dir}/jar/Team4.jar" fork="true">
 		</java>
 	</target>
-
 
 </project>
 
