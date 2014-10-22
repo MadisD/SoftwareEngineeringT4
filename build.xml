@@ -84,7 +84,9 @@
 			</fileset>
 			
 			<zipgroupfileset dir="${build.lib.dir}" includes="**/*.jar" />
-
+			<manifest>
+			 <attribute name="Main-Class" value="${Main-Class}" />
+			</manifest>
 		</jar>
 
 	</target>
@@ -104,7 +106,7 @@
 
 
 	<!-- Run Jar File -->
-	<target name="jrun" depends="build" description="Runs main class from jar file">
+	<target name="jrun" depends="dist" description="Runs main class from jar file">
 		<java fork="true" classname="ee.ut.math.tvt.team4.Intro" failonerror="false">
 			<classpath>
 				<pathelement path="${build.dir}/jar/Team4.jar" />
