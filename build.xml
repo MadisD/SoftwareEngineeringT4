@@ -131,15 +131,17 @@
 		<echo message="Commiting all changes with message ${commit-message}" />
 		<git command="add">
 			<args>
-				<arg value="." />
+				<arg value="-A" />
 			</args>
 		</git>
 		<git command="commit">
 			<args>
-				<arg value="-am ${commit-message}" />
+				<arg value="-m ${commit-message}" />
 			</args>
 		</git>
-		<git command="push origin development" />
+		<input message="Username" addproperty="user" />
+		<input message="Password" addproperty="pw" />
+		<git command="push https://{user}:{pw}@github.com/MadisD/SoftwareEngineeringT4.git" />
 	</target>
 		
 		
