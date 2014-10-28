@@ -141,13 +141,13 @@
 		<input message="Username" addproperty="user" />
 		<input message="Password" addproperty="pw" />
 		
-		<!-- Push not working at the moment
+
 		<git command="push">
 			<args>
-				<arg value="https://{user}:{pw}@github.com/MadisD/SoftwareEngineeringT4.git" />
+				<arg value="https://${user}:${pw}@github.com/MadisD/SoftwareEngineeringT4.git" />
 			</args>
 		</git>
-		-->
+
 	</target>
 	
 	<!-- Ask tag and comment, synchronize it with the GitHub -->
@@ -156,7 +156,7 @@
 		<input message="Comment (Homework n)" addproperty="comment" />
 		<git command="tag">
 			<args>
-				<arg value="-a {tag-name} -m {comment}" />
+				<arg value="-a ${tag-name} -m ${comment}" />
 			</args>
 		</git>
 	</target>
