@@ -127,7 +127,6 @@
  
 	<target name="git_commit" depends="build" description="Commits all changes to POS git">
 		<input message="Commit message" addproperty="commit-message" />
-		
 		<echo message="Commiting all changes with message ${commit-message}" />
 		<git command="add">
 			<args>
@@ -139,7 +138,6 @@
 				<arg value="-m ${commit-message}" />
 			</args>
 		</git>
-
 		<input message="Username" addproperty="user" />
 		<input message="Password" addproperty="pw" />
 		<git command="push">
@@ -147,7 +145,13 @@
 				<arg value="https://{user}:{pw}@github.com/MadisD/SoftwareEngineeringT4.git" />
 			</args>
 		</git>
-		
+	</target>
+	
+	<!-- Ask tag and comment, synchronize it with the GitHub -->
+	<target name="git-tag" depends="build" description="Ask tag name and comment">
+		<input message="Tag name (homework_n)" addproperty="tag-name" />
+		<input message="Comment (Homework n)" addproperty="comment" />
+		<git command="tag -a {tag-name} -m {comment}" />
 	</target>
 		
 </project>
