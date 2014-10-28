@@ -45,7 +45,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
 		this.price = price;
 	}
 
-	public Integer getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
