@@ -145,7 +145,7 @@
 		-->
 		<git command="push">
 			<args>
-				<arg value="origin development" />
+				<arg value="development" />
 			</args>
 		</git>
 	</target>
