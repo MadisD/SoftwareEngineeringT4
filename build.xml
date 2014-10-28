@@ -139,13 +139,22 @@
 				<arg value="-m ${commit-message}" />
 			</args>
 		</git>
-		<!--
-		<input message="Username" addproperty="user" />
-		<input message="Password" addproperty="pw" />
-		-->
-		<git command="push origin development" />
-	</target>
 		
+		<macrodef name = "git-push">
+			<attribute name = "path" />
+			<attribute name = "branch" />
+			<attribute name = "head" />
+			<sequential>
+				<git command = "push" dir="@{path}">
+					<args>
+						<arg value = "@{branch}" />
+						<arg value = "@{head}" />
+					</args>
+				</git>
+			</sequential>
+		</macrodef>
+		
+	</target>
 		
 </project>
 
