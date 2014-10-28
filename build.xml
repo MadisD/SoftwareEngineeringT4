@@ -145,7 +145,7 @@
 		
 		<git command="push">
 			<args>
-				<arg value="origin development https://{user}:{pw}@github.com/MadisD/SoftwareEngineeringT4.git" />
+				<arg value="https://{user}:{pw}@github.com/MadisD/SoftwareEngineeringT4/tree/development" />
 			</args>
 		</git>
 	</target>
