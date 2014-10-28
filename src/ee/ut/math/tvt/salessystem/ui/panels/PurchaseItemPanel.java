@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.panels;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.NoSuchElementException;
+
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -122,7 +125,14 @@ public class PurchaseItemPanel extends JPanel {
         addItemButton = new JButton("Add to cart");
         addItemButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addItemEventHandler();
+            	if (Integer.parseInt(quantityField.getText()) > model.getWarehouseTableModel().getItemQuantity(Integer.parseInt(barCodeField.getText()))) {
+            		System.out.println("neeger palun");
+            	}else {
+            		addItemEventHandler();
+            	}
+                
+                
+                
             }
         });
 
@@ -174,6 +184,8 @@ public class PurchaseItemPanel extends JPanel {
                 .addItem(new SoldItem(stockItem, quantity));
         }
     }
+    
+    
 
     /**
      * Sets whether or not this component is enabled.
