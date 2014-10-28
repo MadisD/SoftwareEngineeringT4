@@ -139,9 +139,9 @@
 				<arg value="-m ${commit-message}" />
 			</args>
 		</git>
-		<input message="Username" addproperty="user" />
-		<input message="Password" addproperty="pw" />
-		<git command="push https://{user}:{pw}@github.com/MadisD/SoftwareEngineeringT4.git" />
+		<!--<input message="Username" addproperty="user" />
+		<input message="Password" addproperty="pw" />-->
+		<git command="push" />
 	</target>
 		
 		
