@@ -140,7 +140,7 @@
 			</args>
 		</git>
 		
-		<git command = "push" dir="C:\Users\Ranal\AppData\Local\GitHub\PortableGit_ed44d00daa128db527396557813e7b68709ed0e2\libexec\git-core\">
+		<git command = "push" dir="https://github.com/MadisD/SoftwareEngineeringT4/tree/development">
 						<args>
 							<arg value = "@{branch}" />
 						</args>
