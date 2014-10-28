@@ -145,7 +145,7 @@
 		-->
 		<git command="push">
 			<args>
-				<arg value="git@github.com:MadisD/SoftwareEngineeringT4.git development" />
+				<arg value="origin development" />
 			</args>
 		</git>
 	</target>
