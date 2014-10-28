@@ -110,7 +110,39 @@
 		<java jar="${build.dir}/jar/Team4.jar" fork="true">
 		</java>
 	</target>
-
+	
+	<!-- Ask comment, make commit to local repository and push changes to the server -->
+	<macrodef name="git">
+		<attribute name="command" />
+		<attribute name="dir" default="" />
+		<element name="args" optional="true" />
+		<sequential>
+			<echo message="git @{command}" />
+			<exec executable="C:\Users\Ranal\AppData\Local\GitHub\PortableGit_ed44d00daa128db527396557813e7b68709ed0e2\libexec\git-core\git" dir="@{dir}">
+				<arg value="@{command}" />
+				<args/>
+			</exec>
+		</sequential>
+	</macrodef>
+ 
+	<target name="git_commit" depends="build" description="Commits all changes to POS git">
+		<input message="Commit message" addproperty="commit-message" />
+		
+		<echo message="Commiting all changes with message ${commit-message}" />
+		<git command="add">
+			<args>
+				<arg value="." />
+			</args>
+		</git>
+		<git command="commit">
+			<args>
+				<arg value="-am ${commit-message}" />
+			</args>
+		</git>
+		<git command="push origin development" />
+	</target>
+		
+		
 </project>
 
 
