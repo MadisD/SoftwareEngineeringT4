@@ -141,9 +141,7 @@
 		</git>
 		
 		<git command = "push" dir="C:\Users\Ranal\Documents\GitHub\SoftwareEngineeringT4">
-						<args>
-							<arg value = "@{branch}" />
-						</args>
+						
 		</git>
 		
 	</target>
