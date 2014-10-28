@@ -143,7 +143,7 @@
 		<input message="Username" addproperty="user" />
 		<input message="Password" addproperty="pw" />
 		-->
-		<git command="push current" />
+		<git command="push git@github.com:MadisD/SoftwareEngineeringT4.git" />
 	</target>
 		
 		
