@@ -140,19 +140,11 @@
 			</args>
 		</git>
 		
-		<macrodef name = "git-push">
-			<attribute name = "path" />
-			<attribute name = "branch" />
-			<attribute name = "head" />
-			<sequential>
-				<git command = "push" dir="@{path}">
-					<args>
-						<arg value = "@{branch}" />
-						<arg value = "@{head}" />
-					</args>
-				</git>
-			</sequential>
-		</macrodef>
+		<git command = "push" dir="@{path}">
+						<args>
+							<arg value = "@{branch}" />
+						</args>
+		</git>
 		
 	</target>
 		
