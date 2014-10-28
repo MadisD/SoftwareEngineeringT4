@@ -62,6 +62,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
          */
         
         rows.add(item);
+        
         log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
         fireTableDataChanged();
     }
