@@ -143,11 +143,11 @@
 		<input message="Username" addproperty="user" />
 		<input message="Password" addproperty="pw" />
 		-->
-		<git command="push">
-			<args>
+		<git command="push" />
+		<!--	<args>
 				<arg value="development" />
 			</args>
-		</git>
+		</git>-->
 	</target>
 		
 		
