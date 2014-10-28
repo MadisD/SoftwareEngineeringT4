@@ -141,7 +141,6 @@
 		<input message="Username" addproperty="user" />
 		<input message="Password" addproperty="pw" />
 		
-
 		<git command="push">
 			<args>
 				<arg value="https://${user}:${pw}@github.com/MadisD/SoftwareEngineeringT4" />
