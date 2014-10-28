@@ -154,7 +154,11 @@
 	<target name="git-tag" depends="build" description="Ask tag name and comment">
 		<input message="Tag name (homework_n)" addproperty="tag-name" />
 		<input message="Comment (Homework n)" addproperty="comment" />
-		<git command="tag -a {tag-name} -m {comment}" />
+		<git command="tag">
+			<args>
+				<arg value="-a {tag-name} -m {comment}" />
+			</args>
+		</git>
 	</target>
 		
 </project>
