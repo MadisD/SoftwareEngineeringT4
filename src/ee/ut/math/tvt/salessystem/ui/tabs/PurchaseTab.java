@@ -43,6 +43,10 @@ public class PurchaseTab {
   private JButton submitPurchase;
 
   private JButton cancelPurchase;
+  
+  private JButton acceptPayment;
+  
+  private JButton cancelPayment;
 
   private PurchaseItemPanel purchasePane;
 
@@ -143,13 +147,64 @@ public class PurchaseTab {
 
     return b;
   }
-
-
+  
+  // Creates the "Accept" button for Payment window
+  private JButton createPaymentAcceptButton() {
+	  JButton acceptPayment = new JButton("Accept");
+	  acceptPayment.addActionListener(new ActionListener(){
+		  public void actionPerformed(ActionEvent e){
+			  acceptPaymentButtonClicked();
+		  }
+	  });
+	  //accept.setEnabled(false);
+	  return acceptPayment;
+  }
+  
+  // Creates the "Cancel" button for Payment window
+  private JButton createPaymentCancelButton() {
+	  JButton cancelPayment = new JButton("Cancel");
+	  cancelPayment.addActionListener(new ActionListener(){
+		  public void actionPerformed(ActionEvent e){
+			  cancelPaymentButtonClicked();
+		  }
+	  });
+	  //accept.setEnabled(false);
+	  return cancelPayment;
+  }
+  
+  // Creates the "OK" button for Payment window
+  /**private JButton createOkButton() {
+	  JButton okButton = new JButton("OK");
+	  okButton.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+			  okButtonClicked();
+		  }
+	  });
+	  //okButton.setEnabled(false);
+	  return okButton;
+  }*/
 
   /* === Event handlers for the menu buttons
    *     (get executed when the buttons are clicked)
    */
 
+  /** Event handler for accepted payment event. */
+  protected void acceptPaymentButtonClicked() {
+	  log.info("Payment accepted");
+	  // Order accepted and saved
+  }
+  
+  /** Event handler for canceled payment event */
+  protected void cancelPaymentButtonClicked() {
+	  log.info("Payment canceled");
+	  // Close popup, shopping cart should restore the state where it was left
+  }
+  
+  /** Event handler for payment amount "OK" button
+  protected void okButtonClicked() {
+	  log.info("Payment Amount entered");
+	  
+  }*/
 
   /** Event handler for the <code>new purchase</code> event. */
   protected void newPurchaseButtonClicked() {
@@ -178,9 +233,6 @@ public class PurchaseTab {
   
   /** Event handler for the <code>submit purchase</code> event. */
   protected void submitPurchaseButtonClicked() {
-	  
-	  double paymentAmount = Double.parseDouble(
-	           JOptionPane.showInputDialog("Please enter payment amount:"));
       
       GridBagConstraints gc = new GridBagConstraints();
       gc.fill = GridBagConstraints.HORIZONTAL;
@@ -199,6 +251,7 @@ public class PurchaseTab {
       for (SoldItem soldItem : stock) {
     	  sum += soldItem.getQuantity()*soldItem.getPrice();
 	}	
+      final float sumFinal = (float)sum;
       gc.gridx = 1;
       gc.gridy = 0;
       myFrame.add(new JLabel(String.valueOf(sum)), gc);
@@ -211,7 +264,9 @@ public class PurchaseTab {
       /** payment amount value */
       gc.gridx = 1;
       gc.gridy = 1;
-      myFrame.add(new JLabel(String.valueOf(paymentAmount)), gc);
+      JTextField paymentAmountField = new JTextField();
+      myFrame.add(paymentAmountField, gc);
+      //myFrame.add(new JLabel(String.valueOf(paymentAmount)), gc);
       
       /** change text */
       gc.gridx = 0;
@@ -219,18 +274,44 @@ public class PurchaseTab {
       myFrame.add(new JLabel("Change:", SwingConstants.LEFT), gc);
       
       /** change value */
-      gc.gridx = 1;
-      gc.gridy = 2;
-      double changeAmount = (paymentAmount - sum);
-      myFrame.add(new JLabel(String.valueOf(changeAmount)), gc); 
+      //gc.gridx = 1;
+      //gc.gridy = 2;
+      //double changeAmount = (paymentAmount - sum);
+      //myFrame.add(new JLabel(String.valueOf(changeAmount)), gc); 
       
       /** Buttons */
+      // Accept button
       gc.gridx = 0;
       gc.gridy = 3;
-      myFrame.add(new JButton("Accept"), gc);
+      acceptPayment = createPaymentAcceptButton();
+      myFrame.add(acceptPayment, gc);
+      
+      // Cancel button
       gc.gridx = 1;
       gc.gridy = 3;
-      myFrame.add(new JButton("Cancel"), gc);   
+      cancelPayment = createPaymentCancelButton();
+      myFrame.add(cancelPayment, gc);   
+      
+      // OK button
+      gc.gridx = 2;
+      gc.gridy = 1;
+      JButton okButton = new JButton("OK");
+      okButton.addActionListener( new ActionListener()
+      {
+    	  public void actionPerformed(ActionEvent e)
+    	  {
+    		  String strPaymentAmount = paymentAmountField.getText();
+    		  double paymentAmount = Double.parseDouble(strPaymentAmount);
+    	      gc.gridx = 1;
+    	      gc.gridy = 2;
+    	      double changeAmount = (paymentAmount - sumFinal);
+    	      myFrame.add(new JLabel(String.valueOf(changeAmount)), gc);
+    	      myFrame.revalidate();
+    	      myFrame.repaint();
+    	      
+    	  }
+      });
+      myFrame.add(okButton, gc);
       
       myFrame.pack();
       myFrame.setSize(200,150);
