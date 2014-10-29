@@ -13,12 +13,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
 import java.util.NoSuchElementException;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -119,6 +120,8 @@ public class PurchaseItemPanel extends JPanel {
         // == Add components to the panel
 
         // - bar code
+        //panel.add(new JLabel("Bar code:"));
+       // panel.add(barCodeField);
        // panel.add(new JLabel("Bar code:"));
         //panel.add(barCodeField);
         
@@ -135,18 +138,31 @@ public class PurchaseItemPanel extends JPanel {
         panel.add(quantityField);
 
         // - name
+       // panel.add(new JLabel("Name:"));
+       // panel.add(nameField);
         panel.add(new JLabel("ID:"));
         panel.add(idField);
 
         // - price
         panel.add(new JLabel("Price:"));
         panel.add(priceField);
-
+        
+        // - warning window
+        final JFrame warning = new JFrame();
+        
         // Create and add the button
         addItemButton = new JButton("Add to cart");
         addItemButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addItemEventHandler();
+            	StockItem currentItem = getStockItemByName(); 
+            	if (Integer.parseInt(quantityField.getText()) > model.getWarehouseTableModel().getItemQuantity(currentItem.getId())) {
+            		JOptionPane.showMessageDialog(warning, "The warehouse doesn't have enough items in stock. " + model.getWarehouseTableModel().getItemQuantity(currentItem.getId()) + " remaining.");
+            	}else {
+            		addItemEventHandler();
+            	}
+                
+                
+                
             }
         });
 
@@ -157,6 +173,7 @@ public class PurchaseItemPanel extends JPanel {
 
     // Fill dialog with data from the "database".
     public void fillDialogFields() {
+
         StockItem stockItem = getStockItemByName();
         if (stockItem != null && dropMenu.getSelectedItem() != null) {
             idField.setText(stockItem.getId().toString());
@@ -210,6 +227,7 @@ public class PurchaseItemPanel extends JPanel {
      */
     public void addItemEventHandler() {
         // add chosen item to the shopping cart.
+
         //StockItem stockItem = getStockItemByBarcode();
     	//System.out.println(dropMenu.getSelectedItem());
     	
@@ -225,6 +243,8 @@ public class PurchaseItemPanel extends JPanel {
                 .addItem(new SoldItem(stockItem, quantity));
         }
     }
+    
+    
 
     /**
      * Sets whether or not this component is enabled.

@@ -77,6 +77,14 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     	return nameList;
     }
     
+    
+    public int getItemQuantity(final long id) {
+        for (final T item : rows) {
+            if (item.getId() == id)
+                return item.getQuantity();
+        }
+        throw new NoSuchElementException();
+    }
 
     public List<T> getTableRows() {
         return rows;

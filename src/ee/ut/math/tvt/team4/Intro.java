@@ -27,8 +27,6 @@ public class Intro {
 		
 		IntroUI intro = new IntroUI();
 		
-		//log.info("New window has been opened");
-		//intro.showInfo();
 		
 		final SalesSystemUI ui = new SalesSystemUI(domainController);
 		ui.setVisible(true);
