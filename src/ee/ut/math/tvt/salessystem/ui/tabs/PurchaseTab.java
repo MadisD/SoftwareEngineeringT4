@@ -222,7 +222,7 @@ public class PurchaseTab {
       gc.gridx = 1;
       gc.gridy = 2;
       double changeAmount = (paymentAmount - sum);
-      myFrame.add(new JLabel(String.valueOf(changeAmount)), gc);
+      myFrame.add(new JLabel(String.valueOf(changeAmount)), gc); 
       
       /** Buttons */
       gc.gridx = 0;
