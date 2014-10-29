@@ -119,11 +119,6 @@ public class PurchaseItemPanel extends JPanel {
 
         // == Add components to the panel
 
-        // - bar code
-        //panel.add(new JLabel("Bar code:"));
-       // panel.add(barCodeField);
-       // panel.add(new JLabel("Bar code:"));
-        //panel.add(barCodeField);
         
         // - Drop down Menu
         panel.add(new JLabel("Item name Menu:"));
@@ -137,9 +132,7 @@ public class PurchaseItemPanel extends JPanel {
         panel.add(new JLabel("Amount:"));
         panel.add(quantityField);
 
-        // - name
-       // panel.add(new JLabel("Name:"));
-       // panel.add(nameField);
+        // - ID
         panel.add(new JLabel("ID:"));
         panel.add(idField);
 
@@ -227,10 +220,6 @@ public class PurchaseItemPanel extends JPanel {
      */
     public void addItemEventHandler() {
         // add chosen item to the shopping cart.
-
-        //StockItem stockItem = getStockItemByBarcode();
-    	//System.out.println(dropMenu.getSelectedItem());
-    	
         StockItem stockItem = getStockItemByName();
         if (stockItem != null) {
             int quantity;
@@ -263,9 +252,11 @@ public class PurchaseItemPanel extends JPanel {
     public void reset() {
         barCodeField.setText("");
         quantityField.setText("1");
+        dropMenu.removeAllItems();
+        addItemsToDropDown();
+        dropMenu.setSelectedItem(null);
         idField.setText("");
         priceField.setText("");
-        dropMenu.setSelectedItem(null);
         
         
     }
