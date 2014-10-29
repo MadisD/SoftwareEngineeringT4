@@ -146,8 +146,6 @@ public class PurchaseTab {
 
 
 
-
-
   /* === Event handlers for the menu buttons
    *     (get executed when the buttons are clicked)
    */
@@ -177,11 +175,12 @@ public class PurchaseTab {
     }
   }
 
-
+  
   /** Event handler for the <code>submit purchase</code> event. */
   protected void submitPurchaseButtonClicked() {
-	
-	  JTextField txtInput = new JTextField();
+	  
+	  double paymentAmount = Double.parseDouble(
+	           JOptionPane.showInputDialog("Please enter payment amount:"));
       
       GridBagConstraints gc = new GridBagConstraints();
       gc.fill = GridBagConstraints.HORIZONTAL;
@@ -200,8 +199,9 @@ public class PurchaseTab {
       for (SoldItem soldItem : stock) {
     	  sum += soldItem.getQuantity()*soldItem.getPrice();
 	}	
-      myFrame.add(new JLabel(String.valueOf(sum)));
-      
+      gc.gridx = 1;
+      gc.gridy = 0;
+      myFrame.add(new JLabel(String.valueOf(sum)), gc);
       
       /** payment amount text*/
       gc.gridx = 0;
@@ -211,7 +211,7 @@ public class PurchaseTab {
       /** payment amount value */
       gc.gridx = 1;
       gc.gridy = 1;
-      myFrame.add(txtInput, gc);
+      myFrame.add(new JLabel(String.valueOf(paymentAmount)), gc);
       
       /** change text */
       gc.gridx = 0;
@@ -219,7 +219,10 @@ public class PurchaseTab {
       myFrame.add(new JLabel("Change:", SwingConstants.LEFT), gc);
       
       /** change value */
-      //...
+      gc.gridx = 1;
+      gc.gridy = 2;
+      double changeAmount = (paymentAmount - sum);
+      myFrame.add(new JLabel(String.valueOf(changeAmount)), gc);
       
       /** Buttons */
       gc.gridx = 0;
@@ -227,10 +230,7 @@ public class PurchaseTab {
       myFrame.add(new JButton("Accept"), gc);
       gc.gridx = 1;
       gc.gridy = 3;
-      myFrame.add(new JButton("Cancel"), gc);
-      gc.gridx = 2;
-      gc.gridy = 1;
-      myFrame.add(new JButton("OK"),gc);
+      myFrame.add(new JButton("Cancel"), gc);   
       
       myFrame.pack();
       myFrame.setSize(200,150);
