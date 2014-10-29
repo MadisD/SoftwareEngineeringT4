@@ -107,9 +107,10 @@
 	            fork="yes">
 	          <jvmarg value="-Xdebug" />
 	          <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
+	       	  <jvmarg value = "-Xnoagent"/>
+	       	  <jvmarg value = "-Djava.compiler= NONE"/>
 	        </java>
 	</target>
-
 
 	<!-- Run Jar File -->
 	<target name="jrun" depends="dist" description="Runs main class from jar file">
