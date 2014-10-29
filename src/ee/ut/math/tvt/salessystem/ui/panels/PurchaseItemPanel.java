@@ -153,9 +153,6 @@ public class PurchaseItemPanel extends JPanel {
             	}else {
             		addItemEventHandler();
             	}
-                
-                
-                
             }
         });
 

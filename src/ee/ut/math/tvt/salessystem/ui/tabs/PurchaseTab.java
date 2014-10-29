@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -14,6 +15,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -185,7 +187,6 @@ public class PurchaseTab {
       gc.fill = GridBagConstraints.HORIZONTAL;
       
       JFrame myFrame = new JFrame("Payment");
-      myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       myFrame.setLayout(new GridBagLayout());
       
       /** order sum text*/
@@ -194,7 +195,13 @@ public class PurchaseTab {
       myFrame.add(new JLabel("Order Sum:", SwingConstants.LEFT), gc);
       
       /** order sum value*/
-      //...
+      List<SoldItem> stock = model.getCurrentPurchaseTableModel().getTableRows();
+      double sum = 0;
+      for (SoldItem soldItem : stock) {
+    	  sum += soldItem.getQuantity()*soldItem.getPrice();
+	}	
+      myFrame.add(new JLabel(String.valueOf(sum)));
+      
       
       /** payment amount text*/
       gc.gridx = 0;
