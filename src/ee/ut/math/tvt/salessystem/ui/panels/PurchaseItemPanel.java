@@ -14,10 +14,14 @@ import java.awt.event.FocusListener;
 import java.util.NoSuchElementException;
 
 
+
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -120,13 +124,16 @@ public class PurchaseItemPanel extends JPanel {
         // - price
         panel.add(new JLabel("Price:"));
         panel.add(priceField);
-
+        
+        // - warning window
+        final JFrame warning = new JFrame();
+        
         // Create and add the button
         addItemButton = new JButton("Add to cart");
         addItemButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	if (Integer.parseInt(quantityField.getText()) > model.getWarehouseTableModel().getItemQuantity(Integer.parseInt(barCodeField.getText()))) {
-            		System.out.println("neeger palun");
+            		JOptionPane.showMessageDialog(warning, "The warehouse doesn't have enough items in stock. " + model.getWarehouseTableModel().getItemQuantity(Integer.parseInt(barCodeField.getText())) + " remaining.");
             	}else {
             		addItemEventHandler();
             	}
