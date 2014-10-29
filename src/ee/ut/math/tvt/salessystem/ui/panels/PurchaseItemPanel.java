@@ -151,7 +151,18 @@ public class PurchaseItemPanel extends JPanel {
             	if (Integer.parseInt(quantityField.getText()) > model.getWarehouseTableModel().getItemQuantity(currentItem.getId())) {
             		JOptionPane.showMessageDialog(warning, "The warehouse doesn't have enough items in stock. " + model.getWarehouseTableModel().getItemQuantity(currentItem.getId()) + " remaining.");
             	}else {
-            		addItemEventHandler();
+            		int input = Integer.parseInt(quantityField.getText());
+            		try {
+	            		int inside = model.getCurrentPurchaseTableModel().getItemById(currentItem.getId()).getQuantity();
+	            		int allowed = model.getWarehouseTableModel().getItemQuantity(currentItem.getId());
+	            		if (input>(allowed-inside) ) {
+	            			JOptionPane.showMessageDialog(warning, "The warehouse doesn't have enough items in stock. " + (allowed-inside) + " remaining.");
+						} else {
+							addItemEventHandler();
+						}
+					} catch (NoSuchElementException e2) {
+						addItemEventHandler();
+					}
             	}
             }
         });
