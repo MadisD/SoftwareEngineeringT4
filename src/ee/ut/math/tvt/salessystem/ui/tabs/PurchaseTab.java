@@ -2,7 +2,6 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItemsLog;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -10,14 +9,13 @@ import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +30,6 @@ import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
 
-//import sun.security.mscapi.KeyStore.MY;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -61,6 +58,8 @@ public class PurchaseTab {
   private JFrame myFrame;
   
   private	 float sumFinal = 0;
+  
+  private List<SoldItemsLog> history = new ArrayList<SoldItemsLog>();
   
   //private JTextField sumField;
 
@@ -202,12 +201,13 @@ public class PurchaseTab {
   protected void acceptPaymentButtonClicked() {
 	  log.info("Payment accepted");
 	  
-	  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	  @SuppressWarnings("unused")
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	  Date date = new Date();
 	  List<SoldItem> soldItems = model.getCurrentPurchaseTableModel().getTableRows();
 	  
-	  
 	  SoldItemsLog sold = new SoldItemsLog<>(date, sumFinal, soldItems);
+	  history.add(sold);
 	  
 	  myFrame.dispose();
 	  endSale();

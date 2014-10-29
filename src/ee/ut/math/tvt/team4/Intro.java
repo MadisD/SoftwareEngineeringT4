@@ -26,6 +26,7 @@ public class Intro {
 		else {
 		
 		IntroUI intro = new IntroUI();
+		intro.showInfo();
 		
 		
 		final SalesSystemUI ui = new SalesSystemUI(domainController);

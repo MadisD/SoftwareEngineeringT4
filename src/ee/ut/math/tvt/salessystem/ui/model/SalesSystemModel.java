@@ -34,7 +34,7 @@ public class SalesSystemModel {
 
     }
 
-    public StockTableModel getWarehouseTableModel() {
+    public StockTableModel getWarehouseTableModel() {	
         return warehouseTableModel;
     }
 
