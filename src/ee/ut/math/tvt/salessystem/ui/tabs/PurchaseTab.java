@@ -1,18 +1,29 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -34,6 +45,8 @@ public class PurchaseTab {
   private PurchaseItemPanel purchasePane;
 
   private SalesSystemModel model;
+  
+  //private JTextField sumField;
 
 
   public PurchaseTab(SalesDomainController controller,
@@ -165,12 +178,65 @@ public class PurchaseTab {
 
   /** Event handler for the <code>submit purchase</code> event. */
   protected void submitPurchaseButtonClicked() {
+	
+	  JTextField txtInput = new JTextField();
+      
+      GridBagConstraints gc = new GridBagConstraints();
+      gc.fill = GridBagConstraints.HORIZONTAL;
+      
+      JFrame myFrame = new JFrame("Payment");
+      myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      myFrame.setLayout(new GridBagLayout());
+      
+      /** order sum text*/
+      gc.gridx = 0;
+      gc.gridy = 0;
+      myFrame.add(new JLabel("Order Sum:", SwingConstants.LEFT), gc);
+      
+      /** order sum value*/
+      //...
+      
+      /** payment amount text*/
+      gc.gridx = 0;
+      gc.gridy = 1;
+      myFrame.add(new JLabel("Payment Amount:", SwingConstants.LEFT), gc);
+      
+      /** payment amount value */
+      gc.gridx = 1;
+      gc.gridy = 1;
+      myFrame.add(txtInput, gc);
+      
+      /** change text */
+      gc.gridx = 0;
+      gc.gridy = 2;
+      myFrame.add(new JLabel("Change:", SwingConstants.LEFT), gc);
+      
+      /** change value */
+      //...
+      
+      /** Buttons */
+      gc.gridx = 0;
+      gc.gridy = 3;
+      myFrame.add(new JButton("Accept"), gc);
+      gc.gridx = 1;
+      gc.gridy = 3;
+      myFrame.add(new JButton("Cancel"), gc);
+      gc.gridx = 2;
+      gc.gridy = 1;
+      myFrame.add(new JButton("OK"),gc);
+      
+      myFrame.pack();
+      myFrame.setSize(200,150);
+      myFrame.setLocationRelativeTo(null);
+      myFrame.setVisible(true);
+	    
     log.info("Sale complete");
     try {
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
           model.getCurrentPurchaseTableModel().getTableRows()
       );
+      
       endSale();
       model.getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {
