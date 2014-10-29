@@ -93,6 +93,7 @@ public class PurchaseItemPanel extends JPanel {
         priceField = new JTextField();
         dropMenu = new JComboBox<>();
         
+        
         dropMenu.addActionListener(new ActionListener() {
 			
 			@Override
@@ -221,6 +222,7 @@ public class PurchaseItemPanel extends JPanel {
         } catch (NoSuchElementException ex) {
             return null;
         }
+        
     }
 
     /**
@@ -248,7 +250,7 @@ public class PurchaseItemPanel extends JPanel {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        this.addItemButton.setEnabled(enabled);
+    	this.addItemButton.setEnabled(enabled);
         this.barCodeField.setEnabled(enabled);
         this.quantityField.setEnabled(enabled);
         this.dropMenu.setEnabled(enabled);

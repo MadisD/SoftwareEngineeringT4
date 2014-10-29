@@ -14,6 +14,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -132,6 +134,16 @@ public class StockTab {
   private void drawAddWindow(){
 	  JFrame popup = new JFrame();
 	  frame = new JFrame();
+	  
+	  //Will Enable Add button again if add stock item window is closed from [X]
+	  frame.addWindowListener(new WindowAdapter() {
+		  @Override
+		public void windowClosing(WindowEvent e) {
+			addItem.setEnabled(true);
+			super.windowClosing(e);
+		}
+	});
+	  
 	  panel = new JPanel();
 	  panel.setLayout(new GridLayout(6,2));
 	  frame.setTitle("New item");

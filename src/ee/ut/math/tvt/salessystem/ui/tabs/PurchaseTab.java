@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItemsLog;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -15,6 +16,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -27,6 +31,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
+
+//import sun.security.mscapi.KeyStore.MY;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -51,6 +57,10 @@ public class PurchaseTab {
   private PurchaseItemPanel purchasePane;
 
   private SalesSystemModel model;
+  
+  private JFrame myFrame;
+  
+  private	 float sumFinal = 0;
   
   //private JTextField sumField;
 
@@ -151,12 +161,12 @@ public class PurchaseTab {
   // Creates the "Accept" button for Payment window
   private JButton createPaymentAcceptButton() {
 	  JButton acceptPayment = new JButton("Accept");
+	  acceptPayment.setEnabled(false);
 	  acceptPayment.addActionListener(new ActionListener(){
 		  public void actionPerformed(ActionEvent e){
 			  acceptPaymentButtonClicked();
 		  }
 	  });
-	  //accept.setEnabled(false);
 	  return acceptPayment;
   }
   
@@ -191,13 +201,25 @@ public class PurchaseTab {
   /** Event handler for accepted payment event. */
   protected void acceptPaymentButtonClicked() {
 	  log.info("Payment accepted");
-	  // Order accepted and saved
+	  
+	  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	  Date date = new Date();
+	  List<SoldItem> soldItems = model.getCurrentPurchaseTableModel().getTableRows();
+	  
+	  
+	  SoldItemsLog sold = new SoldItemsLog<>(date, sumFinal, soldItems);
+	  
+	  myFrame.dispose();
+	  endSale();
+	  model.getCurrentPurchaseTableModel().clear();
+	  
   }
   
   /** Event handler for canceled payment event */
   protected void cancelPaymentButtonClicked() {
 	  log.info("Payment canceled");
-	  // Close popup, shopping cart should restore the state where it was left
+	  myFrame.dispose();
+	  
   }
   
   /** Event handler for payment amount "OK" button
@@ -237,7 +259,7 @@ public class PurchaseTab {
       GridBagConstraints gc = new GridBagConstraints();
       gc.fill = GridBagConstraints.HORIZONTAL;
       
-      JFrame myFrame = new JFrame("Payment");
+      myFrame = new JFrame("Payment");
       myFrame.setLayout(new GridBagLayout());
       
       /** order sum text*/
@@ -251,7 +273,7 @@ public class PurchaseTab {
       for (SoldItem soldItem : stock) {
     	  sum += soldItem.getQuantity()*soldItem.getPrice();
 	}	
-      final float sumFinal = (float)sum;
+      sumFinal = (float)sum;
       gc.gridx = 1;
       gc.gridy = 0;
       myFrame.add(new JLabel(String.valueOf(sum)), gc);
@@ -299,15 +321,25 @@ public class PurchaseTab {
       okButton.addActionListener( new ActionListener()
       {
     	  public void actionPerformed(ActionEvent e)
-    	  {
-    		  String strPaymentAmount = paymentAmountField.getText();
-    		  double paymentAmount = Double.parseDouble(strPaymentAmount);
-    	      gc.gridx = 1;
-    	      gc.gridy = 2;
-    	      double changeAmount = (paymentAmount - sumFinal);
-    	      myFrame.add(new JLabel(String.valueOf(changeAmount)), gc);
-    	      myFrame.revalidate();
-    	      myFrame.repaint();
+    	  {	
+    		  try {
+    			  String strPaymentAmount = paymentAmountField.getText();
+    			  double paymentAmount = Double.parseDouble(strPaymentAmount);
+    			  if (paymentAmount<sumFinal) {
+    				  JOptionPane.showMessageDialog(new JFrame(), "You don't have enough money!");
+    			  } else {
+    				  gc.gridx = 1;
+    				  gc.gridy = 2;
+    				  double changeAmount = (paymentAmount - sumFinal);
+    				  myFrame.add(new JLabel(String.valueOf(changeAmount)), gc);
+    				  myFrame.revalidate();
+    				  myFrame.repaint();
+    				  acceptPayment.setEnabled(true);
+    			  }
+			} catch (NumberFormatException e2) {
+				JOptionPane.showMessageDialog(new JFrame(), "Do not leave payment empty!");
+			}
+    		  
     	      
     	  }
       });
@@ -351,7 +383,7 @@ public class PurchaseTab {
   // switch UI to the state that allows to initiate new purchase
   private void endSale() {
     purchasePane.reset();
-
+    
     cancelPurchase.setEnabled(false);
     submitPurchase.setEnabled(false);
     newPurchase.setEnabled(true);
