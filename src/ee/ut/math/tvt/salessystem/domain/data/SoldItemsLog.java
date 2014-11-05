@@ -4,30 +4,36 @@ import java.util.Date;
 import java.util.List;
 
 public class SoldItemsLog<T> {
-	private Date date;
 	private float sum;
 	private List<T> soldItems;
+	private String date;
+	private String time;
 	
 	
 	
 	
 	
-	public SoldItemsLog(Date date, float sum, List<T> soldItems) {
+	public SoldItemsLog(String dateFormat, float sum, List<T> soldItems) {
 		super();
-		this.date = date;
 		this.sum = sum;
 		this.soldItems = soldItems;
+		String[] datePieces = dateFormat.split(" ");
+		this.date = datePieces[0];
+		this.time = datePieces[1];
+
 	}
 	
 	
 	
+	public String getDate(){
+		return this.date;
+	}
 	
-	public Date getDate() {
-		return date;
+	public String getTime(){
+		return this.time;
 	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
+
+	
 	public float getSum() {
 		return sum;
 	}
