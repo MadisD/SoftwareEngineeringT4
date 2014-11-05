@@ -202,7 +202,7 @@ public class PurchaseTab {
 	  Calendar cal = Calendar.getInstance();
 	  
 	  List<SoldItem> soldItems = model.getCurrentPurchaseTableModel().getTableRows();
-	  SoldItemsLog sold = new SoldItemsLog<>(dateFormat.format(cal.getTime()), sumFinal, soldItems);
+	  SoldItemsLog sold = new SoldItemsLog<>(dateFormat.format(cal.getTime()), sumFinal, soldItems,model.getCurrentPurchaseTableModel());
 	  model.getCurrentHistoryModel().addLog(sold);
 	  
 	  
