@@ -11,6 +11,8 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
  * processes.
  */
 public interface SalesDomainController {
+	
+	public void endSession();
 
     /**
      * Load the current state of the warehouse.
