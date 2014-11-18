@@ -15,23 +15,39 @@
 	<property name="Main-Class" value="ee.ut.math.tvt.team4.Intro" />
 	<property name="conf.dir" value="${basedir}/etc" />
 	<property name="build.lib.dir" value="${build.dir}/lib" />
+	<property name="lib.dir" value="${basedir}/lib"/>
 
+	<!-- database variables -->
+	<property name="data.dir"	value="${basedir}/data"/>
+	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="db.alias"	value="POS"/>
+	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
 
 	
 
 	<!-- Path id-s so you can use these paths later in compiling and creating jar file -->
 	<path id="compile.classpath">
-		<fileset dir="lib">
-			<include name="*.jar" />
-		</fileset>
-	</path>
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
+	 </path>
 
 	<path id="run.classpath">
-		<pathelement path="${build.classes.dir}" />
-		<pathelement location="${conf.dir}" />
-		<fileset dir="lib">
-			<include name="*.jar" />
-		</fileset>
+	        <pathelement location="${build.classes.dir}"/>
+	        <!-- configuration -->
+	        <pathelement location="${conf.dir}"/>
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
 	</path>
 
 	<!-- Delete target  -->
