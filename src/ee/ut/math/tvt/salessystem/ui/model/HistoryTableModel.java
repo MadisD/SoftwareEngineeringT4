@@ -22,6 +22,9 @@ public class HistoryTableModel  extends AbstractTableModel {
 		
 
 	}
+	public SoldItemsLog<SoldItem> getLog(int index){
+		return rows.get(index);
+	}
 	
 	public void addLog(SoldItemsLog<SoldItem> soldLog){
 		rows.add(soldLog);

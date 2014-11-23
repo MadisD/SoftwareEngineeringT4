@@ -105,6 +105,7 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     public void populateWithData(final List<T> data) {
         rows.clear();
         rows.addAll(data);
+        fireTableDataChanged();
     }
     
     
