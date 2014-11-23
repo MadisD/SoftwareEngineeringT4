@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
@@ -53,6 +54,26 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		fireTableDataChanged();
 	}
 
+	
+	/**
+	 * Removes items from stock after purchase. If stock doesn't run empty, will only decrease quantity
+	 */
+	public void removeItem(final SoldItem sold){
+		try {
+			int currentQuantity = getItemById(sold.getId()).getQuantity();
+			int removed = sold.getQuantity();
+			if (currentQuantity-removed != 0) {
+				getItemById(sold.getId()).setQuantity(currentQuantity-removed);
+			} else {
+				removeItem(sold.getId());
+			}
+		} catch (NoSuchElementException e) {
+			System.out.println(e);
+		}
+		fireTableDataChanged();
+	}
+	
+	
 	@Override
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer();

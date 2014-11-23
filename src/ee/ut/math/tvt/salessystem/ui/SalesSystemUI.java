@@ -1,19 +1,24 @@
 package ee.ut.math.tvt.salessystem.ui;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
+
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.StockTab;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -26,7 +31,6 @@ public class SalesSystemUI extends JFrame {
   private static final Logger log = Logger.getLogger(SalesSystemUI.class);
 
   private final SalesDomainController domainController;
-
   // Warehouse model
   private SalesSystemModel model;
 
@@ -42,9 +46,10 @@ public class SalesSystemUI extends JFrame {
   public SalesSystemUI(SalesDomainController domainController) {
     this.domainController = domainController;
     this.model = new SalesSystemModel(domainController);
+    
 
     // Create singleton instances of the tab classes
-    historyTab = new HistoryTab();
+    historyTab = new HistoryTab(model);
     stockTab = new StockTab(model);
     purchaseTab = new PurchaseTab(domainController, model);
 

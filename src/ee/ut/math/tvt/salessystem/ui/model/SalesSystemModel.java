@@ -14,7 +14,9 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 public class SalesSystemModel {
     
     private static final Logger log = Logger.getLogger(SalesSystemModel.class);
-
+    //History model
+    private HistoryTableModel historyTableModel;
+    
     // Warehouse model
     private StockTableModel warehouseTableModel;
     
@@ -32,6 +34,7 @@ public class SalesSystemModel {
         
         warehouseTableModel = new StockTableModel();
         currentPurchaseTableModel = new PurchaseInfoTableModel();
+        historyTableModel = new HistoryTableModel();
 
         // populate stock model with data from the warehouse
         List<StockItem> warehouseContents = HibernateUtil.currentSession().createQuery("from StockItem").list();
@@ -45,6 +48,10 @@ public class SalesSystemModel {
 
     public PurchaseInfoTableModel getCurrentPurchaseTableModel() {
         return currentPurchaseTableModel;
+    }
+    
+    public HistoryTableModel getCurrentHistoryModel(){
+    	return historyTableModel;	
     }
     
 }
