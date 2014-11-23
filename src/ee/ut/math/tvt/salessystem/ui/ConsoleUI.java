@@ -106,8 +106,10 @@ public class ConsoleUI {
 
 		if (c[0].equals("h"))
 			printUsage();
-		else if (c[0].equals("q"))
+		else if (c[0].equals("q")){
+			dc.endSession();
 			System.exit(0);
+		}
 		else if (c[0].equals("w"))
 			showStock(warehouse);
 		else if (c[0].equals("c"))

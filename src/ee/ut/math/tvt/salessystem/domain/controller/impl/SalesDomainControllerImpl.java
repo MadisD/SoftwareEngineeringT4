@@ -14,9 +14,6 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
  */
 public class SalesDomainControllerImpl implements SalesDomainController {
 	
-	public void endSession() {
-	    HibernateUtil.closeSession();
-	}
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
@@ -49,5 +46,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		dataset.add(beer);
 		
 		return dataset;
+	}
+	
+	public void endSession() {
+		HibernateUtil.closeSession();
 	}
 }

@@ -66,10 +66,11 @@ public class SalesSystemUI extends JFrame {
     setSize(width, height);
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
     setLocation((screen.width - width) / 2, (screen.height - height) / 2);
-
+    
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
+    	domainController.endSession();
         System.exit(0);
       }
     });
