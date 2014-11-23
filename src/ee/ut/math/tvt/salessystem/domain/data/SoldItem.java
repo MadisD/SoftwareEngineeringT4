@@ -35,6 +35,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	
 
 	public SoldItem(StockItem stockItem, int quantity) {
 		this.stockItem = stockItem;

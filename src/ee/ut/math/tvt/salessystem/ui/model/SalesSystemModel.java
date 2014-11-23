@@ -37,8 +37,7 @@ public class SalesSystemModel {
         historyTableModel = new HistoryTableModel();
 
         // populate stock model with data from the warehouse
-        List<StockItem> warehouseContents = HibernateUtil.currentSession().createQuery("from StockItem").list();
-        warehouseTableModel.populateWithData(warehouseContents);
+        warehouseTableModel.populateWithData(domainController.loadWarehouseState());
 
     }
 

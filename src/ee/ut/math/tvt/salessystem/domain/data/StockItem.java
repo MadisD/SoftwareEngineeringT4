@@ -34,6 +34,9 @@ public class StockItem implements Cloneable, DisplayableItem {
 	@Column(name = "QUANTITY")
     private int quantity;
 	
+	@OneToMany(mappedBy = "stockItem")
+    private Set<SoldItem> soldItems;
+	
 
     /**
      * Constucts new <code>StockItem</code> with the specified values.

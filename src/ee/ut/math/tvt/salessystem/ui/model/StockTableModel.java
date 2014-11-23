@@ -3,9 +3,11 @@ package ee.ut.math.tvt.salessystem.ui.model;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 /**
  * Stock item table model.
@@ -47,7 +49,15 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 					+ " increased quantity by " + stockItem.getQuantity());
 		}
 		catch (NoSuchElementException e) {
+			
+//			Session session = HibernateUtil.currentSession();
+//			session.beginTransaction();
+//			session.persist(stockItem);
+//			session.getTransaction().commit();
+			
 			rows.add(stockItem);
+			
+			
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
 		}
