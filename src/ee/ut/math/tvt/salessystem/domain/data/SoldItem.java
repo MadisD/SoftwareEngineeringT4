@@ -32,9 +32,12 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	private double price;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private long id;
 	
+	@ManyToOne
+	@JoinColumn(name = "SALE_ID", nullable = false)
+	private SoldItemsLog<SoldItem> history;
 	
 
 	public SoldItem(StockItem stockItem, int quantity) {

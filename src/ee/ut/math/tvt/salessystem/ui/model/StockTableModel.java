@@ -2,7 +2,10 @@ package ee.ut.math.tvt.salessystem.ui.model;
 
 import java.util.NoSuchElementException;
 
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
+import org.hibernate.PersistentObjectException;
 import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -45,17 +48,32 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		try {
 			StockItem item = getItemById(stockItem.getId());
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
+			
+			Session session = HibernateUtil.currentSession();
+			session.beginTransaction();
+			session.merge(item);
+			session.getTransaction().commit();
+			
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
 		}
 		catch (NoSuchElementException e) {
-			
-//			Session session = HibernateUtil.currentSession();
-//			session.beginTransaction();
-//			session.persist(stockItem);
-//			session.getTransaction().commit();
+			try{
+			Session session = HibernateUtil.currentSession();
+			session.beginTransaction();
+			session.persist(stockItem);
+			session.getTransaction().commit();
 			
 			rows.add(stockItem);
+			}
+			
+			catch (PersistentObjectException t) {
+				log.error("Could not save item to the database");
+				t.printStackTrace();
+				JOptionPane.showMessageDialog(null,
+						"Database transaction failed", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 			
 			
 			log.debug("Added " + stockItem.getName()
@@ -74,7 +92,23 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			int removed = sold.getQuantity();
 			if (currentQuantity-removed != 0) {
 				getItemById(sold.getId()).setQuantity(currentQuantity-removed);
+				
+				
+				Session session = HibernateUtil.currentSession();
+				session.beginTransaction();
+				session.merge(getItemById(sold.getId()));
+				session.getTransaction().commit();
+				
+				
+				
 			} else {
+				
+				Session session = HibernateUtil.currentSession();
+				session.beginTransaction();
+				session.delete(getItemById(sold.getId()));
+				session.getTransaction().commit();
+				
+				
 				removeItem(sold.getId());
 			}
 		} catch (NoSuchElementException e) {

@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.hibernate.Session;
+
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItemsLog;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 
 public class HistoryTableModel  extends AbstractTableModel {
@@ -27,6 +30,12 @@ public class HistoryTableModel  extends AbstractTableModel {
 	}
 	
 	public void addLog(SoldItemsLog<SoldItem> soldLog){
+		
+//		Session session = HibernateUtil.currentSession();
+//		session.beginTransaction();
+//		session.merge(soldLog);
+//		session.getTransaction().commit();
+		
 		rows.add(soldLog);
 		fireTableDataChanged();
 	}
