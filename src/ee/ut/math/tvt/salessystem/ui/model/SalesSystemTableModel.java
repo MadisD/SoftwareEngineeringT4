@@ -77,13 +77,6 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     	return nameList;
     }
     
-    public void removeItem(long id){
-    	for (int i = 0; i < rows.size(); i++) {
-			if (rows.get(i).getId() == id) {
-				rows.remove(i);
-			}
-		}
-    }
     
     public int getItemQuantity(final long id) {
         for (final T item : rows) {
@@ -105,7 +98,6 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     public void populateWithData(final List<T> data) {
         rows.clear();
         rows.addAll(data);
-        fireTableDataChanged();
     }
     
     

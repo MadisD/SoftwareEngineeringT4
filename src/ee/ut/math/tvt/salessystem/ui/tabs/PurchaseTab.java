@@ -4,7 +4,6 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItemsLog;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
@@ -16,7 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
  * labelled "Point-of-sale" in the menu).
  */
 public class PurchaseTab {
+
   private static final Logger log = Logger.getLogger(PurchaseTab.class);
 
   private final SalesDomainController domainController;
@@ -57,6 +58,9 @@ public class PurchaseTab {
   private JFrame myFrame;
   
   private	 float sumFinal = 0;
+  
+  private List<SoldItemsLog> history = new ArrayList<SoldItemsLog>();
+  
   //private JTextField sumField;
 
 
@@ -195,27 +199,15 @@ public class PurchaseTab {
 
   /** Event handler for accepted payment event. */
   protected void acceptPaymentButtonClicked() {
-	  log.info("Sale complete");
+	  log.info("Payment accepted");
 	  
 	  @SuppressWarnings("unused")
-	  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	  Calendar cal = Calendar.getInstance();
-	  
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	  Date date = new Date();
 	  List<SoldItem> soldItems = model.getCurrentPurchaseTableModel().getTableRows();
-	  SoldItemsLog sold = new SoldItemsLog<>(dateFormat.format(cal.getTime()), sumFinal, soldItems,model.getCurrentPurchaseTableModel());
-	  model.getCurrentHistoryModel().addLog(sold);
 	  
-	  
-	  
-	  
-	  /**
-	   * Remove sold items from warehouse
-	   */
-	  for (SoldItem soldItem : soldItems) {
-		model.getWarehouseTableModel().removeItem(soldItem);
-	}
-	  
-	  
+	  SoldItemsLog sold = new SoldItemsLog<>(date, sumFinal, soldItems);
+	  history.add(sold);
 	  
 	  myFrame.dispose();
 	  endSale();
@@ -296,12 +288,18 @@ public class PurchaseTab {
       gc.gridy = 1;
       JTextField paymentAmountField = new JTextField();
       myFrame.add(paymentAmountField, gc);
+      //myFrame.add(new JLabel(String.valueOf(paymentAmount)), gc);
       
       /** change text */
       gc.gridx = 0;
       gc.gridy = 2;
       myFrame.add(new JLabel("Change:", SwingConstants.LEFT), gc);
       
+      /** change value */
+      //gc.gridx = 1;
+      //gc.gridy = 2;
+      //double changeAmount = (paymentAmount - sum);
+      //myFrame.add(new JLabel(String.valueOf(changeAmount)), gc); 
       
       /** Buttons */
       // Accept button
@@ -352,15 +350,15 @@ public class PurchaseTab {
       myFrame.setLocationRelativeTo(null);
       myFrame.setVisible(true);
 	    
-    //log.info("Sale complete");
+    log.info("Sale complete");
     try {
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
           model.getCurrentPurchaseTableModel().getTableRows()
       );
       
-      //endSale();
-     // model.getCurrentPurchaseTableModel().clear();
+      endSale();
+      model.getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
