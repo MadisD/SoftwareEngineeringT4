@@ -12,6 +12,7 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
  */
 public interface SalesDomainController {
 	
+	public void endSession();
 
     /**
      * Load the current state of the warehouse.
@@ -46,6 +47,5 @@ public interface SalesDomainController {
     public void submitCurrentPurchase(List<SoldItem> goods)
             throws VerificationFailedException;
 
-    public void endSession();
     
 }
