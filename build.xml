@@ -220,6 +220,36 @@
 	        </java>
 	</target>
 	
+	<!-- JUnit -->
+
+		<target name="build-tests" depends="build" description="Build JUnit tests">
+			<mkdir dir="${build.test.dir}" />
+			<javac
+				srcdir="${test.dir}"
+				destdir="${build.test.dir}"
+				debug="true"
+				debuglevel="lines,vars,source"
+				encoding="utf-8"
+				compiler="modern"
+				target="1.8"
+				source="1.8"
+				classpathref="test.classpath"
+				includeantruntime="false">
+			</javac>
+		</target>
+	
+
+		<target name="test" depends="build-tests" description="Run JUnit tests">
+			<junit>
+				<classpath refid="test.classpath" />
+
+				<formatter type="brief" usefile="false" />
+				<batchtest>
+					<fileset dir="${build.test.dir}" includes="**/*.class" />
+				</batchtest>
+			</junit>
+		</target>
+	
 		
 </project>
 
