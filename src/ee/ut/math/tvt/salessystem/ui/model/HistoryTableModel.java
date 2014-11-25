@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.hibernate.Session;
 
+import ee.ut.math.tvt.salessystem.domain.data.History;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItemsLog;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
@@ -16,7 +17,7 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 public class HistoryTableModel  extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	protected final String[] headers;
-	protected List<SoldItemsLog<SoldItem>> rows;
+	protected List<History> rows;
 	
 	
 	public HistoryTableModel() {
@@ -25,29 +26,23 @@ public class HistoryTableModel  extends AbstractTableModel {
 		
 
 	}
-	public SoldItemsLog<SoldItem> getLog(int index){
+	public History getLog(int index){
 		return rows.get(index);
 	}
 	
-	public void addLog(SoldItemsLog<SoldItem> soldLog){
-		
-//		Session session = HibernateUtil.currentSession();
-//		session.beginTransaction();
-//		session.merge(soldLog);
-//		session.getTransaction().commit();
-		
-		rows.add(soldLog);
+	public void addLog(History sale){
+		rows.add(sale);
 		fireTableDataChanged();
 	}
 	
-	protected Object getColumnValue(SoldItemsLog<SoldItem> item, int columnIndex) {
+	protected Object getColumnValue(History item, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
 			return item.getDate();
 		case 1:
 			return item.getTime();
 		case 2:
-			return item.getSum();
+			return item.getTotalPrice();
 		}
 		throw new IllegalArgumentException("Column index out of range");
 	}
@@ -75,6 +70,12 @@ public class HistoryTableModel  extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return getColumnValue(rows.get(rowIndex), columnIndex);
 	}
+	
+	 public void populateWithData(final List<History> data) {
+	        rows.clear();
+	        rows.addAll(data);
+	        fireTableDataChanged();
+	    }
 
 
 

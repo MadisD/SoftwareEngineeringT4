@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.sun.istack.internal.NotNull;
+
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving
  * history.
@@ -17,6 +19,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "SOLDITEM")
 public class SoldItem implements Cloneable, DisplayableItem {
+	@Id
+	@Column(name = "ID")
+	@NotNull
+	private long id;
 
 	@ManyToOne
 	@JoinColumn(name = "STOCKITEM_ID", nullable = false)
@@ -31,13 +37,11 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Column(name = "ITEMPRICE")
 	private double price;
 	
-	@Id
-	@Column(name = "ID")
-	private long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "SALE_ID", nullable = false)
-	private SoldItemsLog<SoldItem> history;
+	@ManyToOne(optional=false)
+	@JoinColumn(name="SALE_ID", nullable=false)
+	private History history;
+	
 	
 
 	public SoldItem(StockItem stockItem, int quantity) {
@@ -47,6 +51,10 @@ public class SoldItem implements Cloneable, DisplayableItem {
 		this.id = stockItem.getId();
 		this.quantity = quantity;
 
+	}
+	
+	public SoldItem(){
+		
 	}
 
 	public Long getId() {
@@ -87,6 +95,14 @@ public class SoldItem implements Cloneable, DisplayableItem {
 
 	public StockItem getStockItem() {
 		return stockItem;
+	}
+
+	public History getSale() {
+		return history;
+	}
+
+	public void setSale(History sale) {
+		this.history = sale;
 	}
 
 

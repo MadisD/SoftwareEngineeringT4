@@ -14,20 +14,18 @@ import javax.persistence.Table;
 
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 
-@Entity
-@Table(name = "HISTORY")
 public class SoldItemsLog<T> {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(name ="TOTAL")
+//	@Column(name ="TOTAL")
 	private float sum;
 	
-	@OneToMany(mappedBy = "history")
+//	@OneToMany(mappedBy = "history")
 	private List<SoldItem> soldItems;
 	
-	@Column(name = "SALE_TIME")
+//	@Column(name = "SALE_TIME")
 	private Calendar timeStamp;
 	
 	
@@ -38,6 +36,10 @@ public class SoldItemsLog<T> {
 	
 	
 	private PurchaseInfoTableModel purchaseModel;
+	
+	public SoldItemsLog(){
+		
+	}
 	
 	public SoldItemsLog(Calendar cal,String dateFormat, float sum, List<SoldItem> soldItems,PurchaseInfoTableModel purchaseModel) {
 		super();

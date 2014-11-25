@@ -51,7 +51,7 @@ public class HistoryTab {
 			public void valueChanged(ListSelectionEvent e) {
 				int selectedRow = table.getSelectedRow();
 				if (selectedRow >= 0) {
-					itemsTableModel.populateWithData(historyModel.getLog(selectedRow).getSoldItems());
+					itemsTableModel.populateWithData(historyModel.getLog(selectedRow).getOrderDetails());
 				}
 			}
 

@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.History;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItemsLog;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -7,6 +8,7 @@ import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -29,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 
 /**
@@ -204,7 +207,14 @@ public class PurchaseTab {
 	  List<SoldItem> soldItems = model.getCurrentPurchaseTableModel().getTableRows();
 	  
 	  SoldItemsLog sold = new SoldItemsLog<>(cal,dateFormat.format(cal.getTime()), sumFinal, soldItems,model.getCurrentPurchaseTableModel());
-	  model.getCurrentHistoryModel().addLog(sold);
+	 
+	  String dateTime = History.timeDate();
+	  
+//		Session session = HibernateUtil.currentSession();
+//		session.beginTransaction();
+//		session.persist(sold);
+//		session.getTransaction().commit();
+	  model.getCurrentHistoryModel().addLog(new History(dateTime,soldItems));
 	  
 	  
 	  
