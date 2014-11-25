@@ -2,14 +2,11 @@ package ee.ut.math.tvt.salessystem.domain.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.sun.istack.internal.NotNull;
 
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving
@@ -21,7 +18,7 @@ import com.sun.istack.internal.NotNull;
 public class SoldItem implements Cloneable, DisplayableItem {
 	@Id
 	@Column(name = "ID")
-	@NotNull
+	//@NotNull
 	private long id;
 
 	@ManyToOne

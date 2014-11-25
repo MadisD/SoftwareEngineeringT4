@@ -4,15 +4,11 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
-import com.sun.istack.internal.NotNull;
 
 /**
  * Stock item. Corresponds to the Data Transfer Object design pattern.
@@ -24,7 +20,7 @@ public class StockItem implements Cloneable, DisplayableItem {
 	
 	@Id
  	@Column(name = "ID")
- 	@NotNull
+ 	//@NotNull
 	private Long id;
 
 	@Column(name = "NAME")
