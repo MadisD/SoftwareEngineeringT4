@@ -1,3 +1,4 @@
+package ee.ut.math.tvt.salessystem.domain.data;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
