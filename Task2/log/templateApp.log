@@ -1,0 +1,16 @@
+2014-11-26 22:23:42,570 [main] DEBUG - Strating SalesSystem with the Swing UI ..
+2014-11-26 22:23:42,914 [main] INFO - 6 items loaded from disk
+2014-11-26 22:23:42,922 [main] INFO - 1 clients loaded from disk
+2014-11-26 22:23:42,941 [main] INFO - 16 Sales loaded from disk
+2014-11-26 22:23:43,303 [main] INFO - SalesSystem started
+2014-11-26 22:23:47,612 [AWT-EventQueue-0] INFO - Updating warehouse.
+2014-11-26 22:23:47,615 [AWT-EventQueue-0] INFO - 6 items loaded from disk
+2014-11-26 22:23:48,100 [AWT-EventQueue-0] INFO - Updating clients.
+2014-11-26 22:23:48,102 [AWT-EventQueue-0] INFO - 1 clients loaded from disk
+2014-11-26 22:23:48,524 [AWT-EventQueue-0] INFO - Updating history.
+2014-11-26 22:23:48,526 [AWT-EventQueue-0] INFO - 16 Sales loaded from disk
+2014-11-26 22:23:54,308 [AWT-EventQueue-0] INFO - Updating warehouse.
+2014-11-26 22:23:54,310 [AWT-EventQueue-0] INFO - 6 items loaded from disk
+2014-11-26 22:23:55,293 [AWT-EventQueue-0] INFO - Updating clients.
+2014-11-26 22:23:55,294 [AWT-EventQueue-0] INFO - 1 clients loaded from disk
+2014-11-26 22:23:56,902 [AWT-EventQueue-0] INFO - SalesSystem closed
