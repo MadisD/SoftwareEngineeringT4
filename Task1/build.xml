@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="POS" default="build">
+
+	<description>
+		Point of Sale build script
+	</description>
+
+	<!-- Definitions of variables used during the rest of this script -->
+
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.classes.dir" value="${build.dir}/classes" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="build.resources.dir" value="${build.dir}/resources" />
+	<property name="resources.dir" value="${basedir}/resources" />
+	<property name="Main-Class" value="ee.ut.math.tvt.team4.Intro" />
+	<property name="conf.dir" value="${basedir}/conf" />
+	<property name="build.lib.dir" value="${build.dir}/lib" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="test.dir" value="${basedir}/test" />
+	<property name="build.test.dir" value="${build.dir}/test" />
+	
+	<!-- database variables -->
+	<property name="data.dir"	value="${basedir}/data"/>
+	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="db.alias"	value="POS"/>
+	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
+
+	
+
+	<!-- Path id-s so you can use these paths later in compiling and creating jar file -->
+	<path id="compile.classpath">
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
+	 </path>
+
+	<path id="test.classpath">
+		<pathelement location="${build.classes.dir}" />
+		<pathelement location="${conf.dir}" />
+		<pathelement location="${build.test.dir}" />
+
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+
+		<fileset dir="${lib.hibernate.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="base.path" path="${basedir}" />
+	<path id="class.path" path="${build.classes.dir}" />
+	
+	<zipfileset id="log.core" includes="**/*.class" src="${lib.dir}/log4j-4.10.jar" />
+	<zipfileset id="log.api" includes="**/*.class" src="${lib.dir}/log4j-4.10.jar" />
+	
+	<path id="run.classpath">
+	        <pathelement location="${build.classes.dir}"/>
+	        <!-- configuration -->
+	        <pathelement location="${conf.dir}"/>
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
+	</path>
+
+	<!-- Delete target  -->
+	<target name="clean" description="Deletes build directory">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!--  Build target -->
+	<target name="build" description="Builds the System">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+
+		<copy todir="${build.resources.dir}">
+			<fileset dir="${resources.dir}" />
+		</copy>
+
+		<copy todir="${build.dir}/lib">
+			<fileset dir="${basedir}/lib" />
+		</copy>
+
+		<!-- Compiles and creates java classes -->
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" debuglevel="lines,vars,source" encoding="utf-8" compiler="modern" target="1.8" source="1.8" includeantruntime="false">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<!-- Making jar file target  -->
+	<target name="dist" depends="build" description="Creates distribution file">
+
+		<!-- Updates version number -->
+		<propertyfile file="version.properties">
+			<entry key="revision" type="int" default="0" operation="+" />
+		</propertyfile>
+
+		<copy todir="${build.dir}">
+			<fileset dir="${basedir}">
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+
+		<!-- Creates jar file -->
+		<jar jarfile="${build.dir}/jar/Team4.jar" basedir="${build.classes.dir}">
+
+			<fileset dir="${basedir}/etc">
+				<include name="log4j.xml" />
+			</fileset>
+			<fileset dir="${build.dir}">
+				<exclude name="**/jar/**" />
+				<exclude name="**/classes/**" />
+			</fileset>
+
+			<zipgroupfileset dir="${build.lib.dir}" includes="**/*.jar" />
+			<manifest>
+				<attribute name="Main-Class" value="${Main-Class}" />
+			</manifest>
+		</jar>
+
+	</target>
+
+
+	<target name="runc" depends="build" description="Run the application (console)">
+		<java classname="ee.ut.math.tvt.team4.Intro" classpathref="test.classpath" fork="yes">
+			<arg value="console" />
+		</java>
+	</target>
+
+
+	<!-- Run target  -->
+	<target name="run" depends="build" description="Runs the new build project">
+	       <java
+	          classname="ee.ut.math.tvt.team4.Intro"
+	            classpathref="run.classpath"
+	            fork="yes">
+	          <jvmarg value="-Xdebug" />
+	          <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
+	       	  <jvmarg value = "-Xnoagent"/>
+	       	  <jvmarg value = "-Djava.compiler= NONE"/>
+	        </java>
+	</target>
+
+	<!-- Run Jar File -->
+	<target name="jrun" depends="dist" description="Runs main class from jar file">
+		<java jar="${build.dir}/jar/Team4.jar" fork="true">
+		</java>
+	</target>
+	
+	<!-- Ask comment, make commit to local repository and push changes to the server -->
+	<macrodef name="git">
+		<attribute name="command" />
+		<attribute name="dir" default="" />
+		<element name="args" optional="true" />
+		<sequential>
+			<echo message="git @{command}" />
+			<exec executable="git" dir="@{dir}">
+				<arg value="@{command}" />
+				<args />
+			</exec>
+		</sequential>
+	</macrodef>
+ 
+	<target name="git_commit" depends="build" description="Commits all changes to POS git">
+		<input message="Commit message" addproperty="commit-message" />
+		<echo message="Commiting all changes with message ${commit-message}" />
+		<git command="add">
+			<args>
+				<arg value="-A" />
+			</args>
+		</git>
+		<git command="commit">
+			<args>
+				<arg value="-m ${commit-message}" />
+			</args>
+		</git>
+		<input message="Username" addproperty="user" />
+		<input message="Password" addproperty="pw" />
+		
+		<git command="push">
+			<args>
+				<arg value="https://${user}:${pw}@github.com/MadisD/SoftwareEngineeringT4" />
+			</args>
+		</git>
+
+	</target>
+	
+	<!-- Ask tag and comment, synchronize it with the GitHub -->
+	<target name="git_tag" depends="build" description="Ask tag name and comment">
+		<input message="Tag name (homework_n)" addproperty="tag-name" />
+		<input message="Comment (Homework n)" addproperty="tag-comment" />
+		
+		<echo message="Synchronizing git tag -a ${tag-name} -m ${tag-comment}" />
+		<exec executable="git" failonerror="true">
+			<arg line="tag -a ${tag-name} -m '${tag-comment}'" />
+		</exec>
+		
+		<git command="push">
+			<args>
+					<arg line="--tags" />
+			</args>
+		</git>
+	</target>
+	
+	<!-- dbmanager and startdb targets -->
+	
+	<target name="dbmanager" description="Start the HSQLDB manager">
+	        <java
+	            classname="org.hsqldb.util.DatabaseManagerSwing"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="--user sa --url ${db.url}" />
+	        </java>
+	    </target>
+
+	    <target name="startdb" description="Start the HSQLDB with the default params">
+	        <java
+	            classname="org.hsqldb.Server"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
+	        </java>
+	</target>
+	
+	<!-- JUnit -->
+
+	<target name="build-tests" depends="build" description="Build JUnit tests.">
+		<mkdir dir="${build.test.dir}" />
+		<javac
+			srcdir="${test.dir}"
+			destdir="${build.test.dir}"
+			debug="true"
+			debuglevel="lines,vars,source"
+			encoding="utf-8"
+			compiler="modern"
+			target="1.8"
+			source="1.8"
+			classpathref="test.classpath"
+			includeantruntime="false">
+		</javac>
+	</target>
+
+	<target name="test" depends="build-tests" description="Run JUnit tests.">
+		<junit>
+			<classpath refid="test.classpath" />
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${build.test.dir}" includes="**/*.class" />
+			</batchtest>
+		</junit>
+	</target>
+	
+		
+</project>
+
+
