@@ -48,34 +48,11 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		try {
 			StockItem item = getItemById(stockItem.getId());
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
-			
-			Session session = HibernateUtil.currentSession();
-			session.beginTransaction();
-			session.merge(item);
-			session.getTransaction().commit();
-			
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
 		}
 		catch (NoSuchElementException e) {
-			try{
-			Session session = HibernateUtil.currentSession();
-			session.beginTransaction();
-			session.persist(stockItem);
-			session.getTransaction().commit();
-			
 			rows.add(stockItem);
-			}
-			
-			catch (PersistentObjectException t) {
-				log.error("Could not save item to the database");
-				t.printStackTrace();
-				JOptionPane.showMessageDialog(null,
-						"Database transaction failed", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
 		}
@@ -136,5 +113,22 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 
 		return buffer.toString();
 	}
+	
+	public boolean hasEnoughInStock(StockItem item, int quantityWanted){
+		int quantityInStock= (int) this.getColumnValue(item, 3);
+		if (quantityWanted>quantityInStock){
+		return false;
+		}
+		return true;
+		}
+	
+	public boolean validateNameUniqueness(String newName){
+		for (StockItem item: this.getTableRows()){
+		if(item.getName().equals(newName)){
+		return false;
+		}
+		}
+		return true;
+		}
 
 }

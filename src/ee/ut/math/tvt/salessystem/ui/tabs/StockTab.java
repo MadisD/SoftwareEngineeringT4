@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 
 
@@ -169,7 +170,21 @@ public class StockTab {
 							JOptionPane.showMessageDialog(popup, "Quantity must be an integer!");
 						} else {
 							StockItem newItem = buildItem();	
-							
+							try {
+								Session session = HibernateUtil.currentSession();
+								session.beginTransaction();
+								session.persist(newItem);
+								session.getTransaction().commit();
+							} catch (NonUniqueObjectException u) {
+								StockItem item = model.getWarehouseTableModel().getItemById(newItem.getId());
+								item.setQuantity(item.getQuantity() + newItem.getQuantity());
+								HibernateUtil.closeSession();
+								Session session = HibernateUtil.currentSession();
+								session.beginTransaction();
+								session.merge(item);
+								session.getTransaction().commit();
+
+							}
 							model.getWarehouseTableModel().addItem(newItem);
 							frame.dispose();
 							addItem.setEnabled(true);

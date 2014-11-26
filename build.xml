@@ -244,8 +244,8 @@
 			debuglevel="lines,vars,source"
 			encoding="utf-8"
 			compiler="modern"
-			target="1.7"
-			source="1.7"
+			target="1.8"
+			source="1.8"
 			classpathref="test.classpath"
 			includeantruntime="false">
 		</javac>
