@@ -48,8 +48,6 @@ public class PurchaseHistoryTableModel extends SalesSystemTableModel<Sale> {
 
 		for (final Sale sale : getRows()) {
 			buffer.append(sale.getId() + "\t");
-			// buffer.append(sale.getClient() != null ?
-			// sale.getClient().getFirstName() : "" + "\t");
 			buffer.append(sale.getSum() + "\t");
 			buffer.append("\n");
 		}

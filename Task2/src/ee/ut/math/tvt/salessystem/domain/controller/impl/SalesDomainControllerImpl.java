@@ -1,4 +1,4 @@
-package ee.ut.math.tvt.salessystem.domain.controller.impl;
+	package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.Client;
@@ -68,7 +68,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 
 		// sale.setId(null);
 		sale.setSellingTime(new Date());
-
+		//Sets client for Sale
+		sale.setClient(model.getSelectedClient());
 		// Reduce quantities of stockItems in warehouse
 		for (SoldItem item : sale.getSoldItems()) {
 			// Associate with current sale
