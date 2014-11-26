@@ -90,7 +90,7 @@ public class History implements Cloneable, DisplayableItem{
 	}
 
 	
-	private double getTotalSum() {
+	public double getTotalSum() {
 		
 		if (getOrderDetails() == null) {
 			return 0;
